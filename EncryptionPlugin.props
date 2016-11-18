@@ -1,0 +1,23 @@
+# general plugin information
+plugin.mochi.EncryptionPlugin.activate=defer
+plugin.mochi.EncryptionPlugin.usePluginHome=true
+plugin.mochi.EncryptionPlugin.name=Encryption Plugin
+plugin.mochi.EncryptionPlugin.author=Eric Berry
+plugin.mochi.EncryptionPlugin.version=0.1
+plugin.mochi.EncryptionPlugin.docs=EncryptionPlugin.html
+# depends on java 8, jEdit 5.3
+plugin.mochi.EncryptionPlugin.depend.0=jdk 1.8
+plugin.mochi.EncryptionPlugin.depend.1=jedit 05.03.99.00
+plugin.mochi.EncryptionPlugin.jars=jasypt-1.9.2-lite.jar
+plugin.mochi.EncryptionPlugin.description=A plugin that provides basic functionality to work with encrypted files.
+plugin.mochi.EncryptionPlugin.longdescription=description.html
+plugin.mochi.EncryptionPlugin.menu=encryption.passwordlist \
+  - \
+  encryption.decrypt-file \
+  encryption.encrypt-file
+# dockable window name
+encryption.passwordlist.title=Passwords List
+encryption.passwordlist.label=Passwords List
+# Actions
+encryption.encrypt-file.label=Encrypt file
+encryption.decrypt-file.label=Decrypt file

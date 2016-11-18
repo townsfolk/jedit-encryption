@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+<ACTIONS>
+    <ACTION NAME="encryption.encrypt-file">
+        <CODE>
+            System.out.println("Encrypt File");
+        </CODE>
+    </ACTION>
+    <ACTION NAME="encryption.decrypt-file">
+        <CODE>
+            System.out.println("Decrypt File");
+        </CODE>
+    </ACTION>
+</ACTIONS>
