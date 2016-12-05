@@ -11,9 +11,9 @@ repositories {
 }
 
 dependencies {
-	compile fileTree(dir: jeditDir, include: "jedit.jar")
+	compile fileTree(dir: jeditDir, include: 'jedit.jar')
 	compile fileTree(dir: 'libs', include: 'jasypt-1.9.2-lite.jar')
+	compile 'org.codehaus.groovy:groovy:2.4.7'
 
-	testCompile 'org.codehaus.groovy:groovy:2.4.7'
 	testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }

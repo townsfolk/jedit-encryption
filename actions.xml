@@ -3,12 +3,12 @@
 <ACTIONS>
     <ACTION NAME="encryption.encrypt-file">
         <CODE>
-            System.out.println("Encrypt File");
+            mochi.EncryptionPlugin.instance.encryptFile(buffer.getPath());
         </CODE>
     </ACTION>
     <ACTION NAME="encryption.decrypt-file">
         <CODE>
-            System.out.println("Decrypt File");
+            mochi.EncryptionPlugin.instance.decryptFile(buffer.getPath());
         </CODE>
     </ACTION>
 </ACTIONS>

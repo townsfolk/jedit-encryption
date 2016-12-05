@@ -4,17 +4,23 @@
     <property file="build.properties"/>
     <property file="../build.properties"/>
 
-    <property name="src.dir" value="src/main/java"/>
+    <property name="src.dir" value="src/main/groovy"/>
     <property name="build.dir" value="build"/>
     <property name="install.dir" value="${build.dir}/install"/>
     <property name="jedit.plugins.dir" value="${install.dir}"/>
     <property name="docs-proc.target" value="none"/>
+    <property name="compiler.target" value="1.8"/>
+    <property name="compiler.source" value="1.8"/>
 
     <import file="${build.support}/plugin-build.xml"/>
 
     <path id="project.class.path">
         <pathelement location="libs/jasypt-1.9.2-lite.jar"/>
         <pathelement location="${jedit.install.dir}/jedit.jar"/>
+        <fileset dir="${jedit.plugins.dir}">
+            <!--include name="**/*.jar"/-->
+            <include name="groovy-all-1.7.5.jar"/>
+        </fileset>
     </path>
 
     <selector id="packageFiles">
@@ -28,4 +34,34 @@
             <fileset dir="libs" includes="*.jar"/>
         </copy>
     </target>
+
+    <taskdef name="groovyc"
+             classname="org.codehaus.groovy.ant.Groovyc"
+             classpathref="project.class.path"/>
+
+    <target name="compile"
+            description="Compile the plugin's classes" depends="resolve">
+
+        <mkdir dir="${build.classes}"/>
+        <groovyc srcdir="${src.dir}" destdir="${build.classes}" classpathref="project.class.path">
+            <javac debug="${compiler.debug}"
+                   debuglevel="${compiler.debuglevel}"
+                   optimize="${compiler.optimize}"
+                   encoding="utf-8"
+                   deprecation="${compiler.deprecation}"
+                   verbose="${compiler.verbose}"
+                   nowarn="${compiler.nowarn}"
+                   target="${compiler.target}"
+                   source="${compiler.source}"
+                   listfiles="${compiler.listfiles}"
+                   fork="${compiler.fork}"
+                   bootclasspath="${compiler.bootclasspath}"
+                   extdirs="${compiler.extdirs}">
+                <compilerarg line="${compiler.userargs}"/>
+                <classpath refid="default.class.path"/>
+                <classpath refid="project.class.path"/>
+            </javac>
+        </groovyc>
+    </target>
+
 </project>
