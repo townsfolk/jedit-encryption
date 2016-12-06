@@ -21,3 +21,10 @@ encryption.passwordlist.label=Passwords List
 # Actions
 encryption.encrypt-file.label=Encrypt file
 encryption.decrypt-file.label=Decrypt file
+# Options
+# plugin option pane
+plugin.mochi.EncryptionPlugin.option-pane=encryption
+# Option pane activation BeanShell snippet
+options.encryption.code=mochi.EncryptionPlugin.optionPane();
+# Option pane labels
+options.encryption.label=Encryption Settings
