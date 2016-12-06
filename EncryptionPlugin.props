@@ -1,5 +1,5 @@
 # general plugin information
-plugin.mochi.EncryptionPlugin.activate=defer
+plugin.mochi.EncryptionPlugin.activate=startup
 plugin.mochi.EncryptionPlugin.usePluginHome=true
 plugin.mochi.EncryptionPlugin.name=Encryption Plugin
 plugin.mochi.EncryptionPlugin.author=Eric Berry
