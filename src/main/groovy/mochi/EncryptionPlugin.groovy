@@ -8,6 +8,11 @@ import org.gjt.sp.jedit.msg.BufferUpdate
 import org.gjt.sp.util.Log
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor
 
+import javax.swing.*
+import java.awt.*
+import java.awt.event.WindowAdapter
+import java.awt.event.WindowEvent
+
 /**
  * Created by elberry on 11/15/16.
  */
@@ -18,42 +23,75 @@ public class EncryptionPlugin extends EBPlugin {
 	public static final String ENCRYPTED_EXTENSION = ".jenc"
 	private Set<String> sessionFiles = []
 
+	private char[] promptForPassword(String title) {
+
+		JPanel panel = new JPanel(new GridLayout(0, 1))
+		panel.add(new JLabel("Enter Password:"))
+		JPasswordField pf = new JPasswordField()
+		panel.add(pf)
+
+		JOptionPane op = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION)
+
+		JDialog dialog = op.createDialog(title)
+		dialog.addWindowFocusListener(new WindowAdapter() {
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				pf.requestFocusInWindow()
+			}
+		})
+
+		dialog.setVisible(true)
+
+		if (JOptionPane.OK_OPTION == op.value) {
+			Log.log(Log.DEBUG, this, "password: " + String.valueOf(pf.password))
+			return pf.password
+		}
+		Log.log(Log.DEBUG, this, "password: " + String.valueOf(pf.password))
+		return null
+	}
+
 	public File decryptFile(String path) {
 		Log.log(Log.DEBUG, this, "Decrypting file: $path")
-		StandardPBEStringEncryptor decryptor = new StandardPBEStringEncryptor()
-		decryptor.password = JASYPT
-		File encryptedFile = new File(path)
-		try {
-			File decryptedFile = new File(createDecryptedPath(path))
-			String decryptedData = decryptor.decrypt(encryptedFile.text)
-			if (!decryptedFile.exists()) {
-				decryptedFile.createNewFile()
+		char[] password = promptForPassword("Decrypting File")
+		if (password) {
+			StandardPBEStringEncryptor decryptor = new StandardPBEStringEncryptor()
+			decryptor.passwordCharArray = password
+			File encryptedFile = new File(path)
+			try {
+				File decryptedFile = new File(createDecryptedPath(path))
+				String decryptedData = decryptor.decrypt(encryptedFile.text)
+				if (!decryptedFile.exists()) {
+					decryptedFile.createNewFile()
+				}
+				decryptedFile.text = decryptedData
+				Log.log(Log.DEBUG, this, "Decrypted file: $decryptedFile")
+				return decryptedFile
+			} catch (Exception exception) {
+				Log.log(Log.ERROR, this, "Could not decrypt file: $encryptedFile", exception)
 			}
-			decryptedFile.text = decryptedData
-			Log.log(Log.DEBUG, this, "Decrypted file: $decryptedFile")
-			return decryptedFile
-		} catch (Exception exception) {
-			Log.log(Log.ERROR, this, "Could not decrypt file: $encryptedFile", exception)
 		}
 		return null
 	}
 
 	public File encryptFile(String path) {
 		Log.log(Log.DEBUG, this, "Encrypting file: $path")
-		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor()
-		encryptor.password = JASYPT
-		File decryptedFile = new File(path)
-		try {
-			File encryptedFile = new File("${path}${ENCRYPTED_EXTENSION}")
-			String encryptedData = encryptor.encrypt(decryptedFile.text)
-			if (!encryptedFile.exists()) {
-				encryptedFile.createNewFile()
+		char[] password = promptForPassword("Encrypting File")
+		if (password) {
+			StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor()
+			encryptor.passwordCharArray = password
+			File decryptedFile = new File(path)
+			try {
+				File encryptedFile = new File("${path}${ENCRYPTED_EXTENSION}")
+				String encryptedData = encryptor.encrypt(decryptedFile.text)
+				if (!encryptedFile.exists()) {
+					encryptedFile.createNewFile()
+				}
+				encryptedFile.text = encryptedData
+				Log.log(Log.DEBUG, this, "Encrypted file: $encryptedFile")
+				return encryptedFile
+			} catch (Exception exception) {
+				Log.log(Log.ERROR, this, "Could not encrypt file: $decryptedFile", exception)
 			}
-			encryptedFile.text = encryptedData
-			Log.log(Log.DEBUG, this, "Encrypted file: $encryptedFile")
-			return encryptedFile
-		} catch (Exception exception) {
-			Log.log(Log.ERROR, this, "Could not encrypt file: $decryptedFile", exception)
 		}
 		return null
 	}
