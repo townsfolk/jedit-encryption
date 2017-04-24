@@ -6,6 +6,12 @@
             mochi.EncryptionPlugin.instance.encryptFile(buffer.getPath());
         </CODE>
     </ACTION>
+    <ACTION NAME="encryption.encrypt-file-and-close">
+        <CODE>
+            mochi.EncryptionPlugin.instance.encryptFile(buffer.getPath());
+            org.gjt.sp.jedit.jEdit.closeBuffer(view, buffer);
+        </CODE>
+    </ACTION>
     <ACTION NAME="encryption.decrypt-file">
         <CODE>
             mochi.EncryptionPlugin.instance.decryptFile(buffer.getPath());

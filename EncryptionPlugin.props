@@ -14,13 +14,15 @@ plugin.mochi.EncryptionPlugin.longdescription=description.html
 plugin.mochi.EncryptionPlugin.menu=encryption.passwordlist \
   - \
   encryption.decrypt-file \
-  encryption.encrypt-file
+  encryption.encrypt-file \
+  encryption.encrypt-file-and-close
 # dockable window name
 encryption.passwordlist.title=Passwords List
 encryption.passwordlist.label=Passwords List
 # Actions
 encryption.encrypt-file.label=Encrypt file
 encryption.decrypt-file.label=Decrypt file
+encryption.encrypt-file-and-close.label=Encrypt File & Close
 # Options
 # plugin option pane
 plugin.mochi.EncryptionPlugin.option-pane=encryption
